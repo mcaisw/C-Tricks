@@ -7,6 +7,7 @@ using System.Threading;
 
 /*
 https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-iterate-through-a-directory-tree
+这个脚本实现把一个目录下面，所有同类型的文件（包含子目录），复制到另外一个文件夹下。
      */
 namespace pc_dicrectory_tranversal_cSharp
 {
