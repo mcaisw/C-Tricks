@@ -1,0 +1,6 @@
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\bin\Debug\pc_dicrectory_tranversal_cSharp.exe.config
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\bin\Debug\pc_dicrectory_tranversal_cSharp.exe
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\bin\Debug\pc_dicrectory_tranversal_cSharp.pdb
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\obj\Debug\pc_dicrectory_tranversal_cSharp.csprojResolveAssemblyReference.cache
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\obj\Debug\pc_dicrectory_tranversal_cSharp.exe
+D:\mc\C#Tricks\pc_dicrectory_tranversal_cSharp\pc_dicrectory_tranversal_cSharp\obj\Debug\pc_dicrectory_tranversal_cSharp.pdb
