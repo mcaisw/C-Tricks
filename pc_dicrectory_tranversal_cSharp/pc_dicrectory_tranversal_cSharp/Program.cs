@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.IO;
 
 /*
 https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-iterate-through-a-directory-tree
@@ -15,19 +16,24 @@ namespace pc_dicrectory_tranversal_cSharp
     {
         static void Main(string[] args)
         {
-            string path = @"C:\Temp";
-            string targetPath = @"C:\TempCopy";
+            string originalPath = @"C:\Temp";
+            string destinationDir = @"C:\TempCopy";
 
-            if (!System.IO.Directory.Exists(targetPath))
+            if (!System.IO.Directory.Exists(destinationDir))
             {
-                System.IO.Directory.CreateDirectory(targetPath);
+                System.IO.Directory.CreateDirectory(destinationDir);
             }
 
-            System.IO.DirectoryInfo root = new System.IO.DirectoryInfo(path);
-            WalkDirectoryTree(root, targetPath);
+            
+            System.IO.DirectoryInfo root = new System.IO.DirectoryInfo(originalPath);
+            //WalkDirectoryTree(root, destinationDir);
+            //TraverseTree(@"C:\Temp");
+            TranverseAllDictonaries(@"C:\Temp");
         }
 
+        //recusion
         static void WalkDirectoryTree(System.IO.DirectoryInfo specifiedDir,string destFolder) {
+
             System.IO.FileInfo[] files = null;
             System.IO.DirectoryInfo[] subDirs = null;
 
@@ -45,17 +51,126 @@ namespace pc_dicrectory_tranversal_cSharp
                 foreach (System.IO.FileInfo fi in files)
                 {
                     Console.WriteLine(fi.FullName);
-                    string destFile;
-                    destFile = System.IO.Path.Combine(destFolder, fi.Name);
-                    System.IO.File.Copy(fi.FullName, destFile,true);
+                    string destFilePath;
+                    destFilePath = System.IO.Path.Combine(destFolder, fi.Name);
+                    System.IO.File.Copy(fi.FullName, destFilePath,false);
                 }
             }
 
             subDirs = specifiedDir.GetDirectories();
+
             foreach (System.IO.DirectoryInfo dirInfo in subDirs)
             {
                 WalkDirectoryTree(dirInfo, destFolder);
             }
         }
+
+        //without recusion
+        public static void TraverseTree(string root)
+        {
+            // Data structure to hold names of subfolders to be
+            // examined for files.
+            Stack<string> dirs = new Stack<string>(20);
+
+            if (!System.IO.Directory.Exists(root))
+            {
+                throw new ArgumentException();
+            }
+            dirs.Push(root);
+            Console.WriteLine("dir count=="+dirs.Count);
+
+            while (dirs.Count > 0)
+            {
+                string currentDir = dirs.Pop();
+                Console.WriteLine("-------------------------------------"+currentDir);
+                string[] subDirs;
+                try
+                {
+                    subDirs = System.IO.Directory.GetDirectories(currentDir);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+                catch (System.IO.DirectoryNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+
+                string[] files = null;
+                try
+                {
+                    files = System.IO.Directory.GetFiles(currentDir);
+                }
+
+                catch (UnauthorizedAccessException e)
+                {
+
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+
+                catch (System.IO.DirectoryNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+                // Perform the required action on each file here.
+                // Modify this block to perform your required task.
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        // Perform whatever action is required in your scenario.
+                        System.IO.FileInfo fi = new System.IO.FileInfo(file);
+                        Console.WriteLine("{0}: {1}, {2}", fi.Name, fi.Length, fi.CreationTime);
+                    }
+                    catch (System.IO.FileNotFoundException e)
+                    {
+                        // If file was deleted by a separate application
+                        //  or thread since the call to TraverseTree()
+                        // then just continue.
+                        Console.WriteLine(e.Message);
+                        continue;
+                    }
+                }
+
+                // Push the subdirectories onto the stack for traversal.
+                // This could also be done before handing the files.
+                foreach (string str in subDirs) {
+                    dirs.Push(str);
+                }
+            }
+        }
+
+        public static void TranverseAllDictonaries(string root) {
+            Stack<string> dirs = new Stack<string>(20) ;
+            dirs.Push(root);
+            while (dirs.Count>0)
+            {
+                string[] subDirs = new string[] { };
+                string currentDir = dirs.Pop();
+                Console.WriteLine(currentDir);
+                try
+                {
+                    subDirs = System.IO.Directory.GetDirectories(currentDir);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                catch (System.IO.DirectoryNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                foreach (string item in subDirs)
+                    dirs.Push(item);
+            }
+        }
     }
+
+
 }
