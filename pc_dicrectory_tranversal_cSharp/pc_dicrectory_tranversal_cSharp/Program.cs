@@ -55,21 +55,21 @@ namespace pc_dicrectory_tranversal_cSharp
                     destFilePath = System.IO.Path.Combine(destFolder, fi.Name);
                     try
                     {
-                        System.IO.File.Copy(fi.FullName, destFilePath, false);
+                        System.IO.File.Copy(fi.FullName, destFilePath+fi.GetHashCode(), false);
 
                     }
                     catch (IOException e)
                     {
                         Console.WriteLine(e.Message);
-                        i++;
-                        try
-                        {
-                            File.Move(destFilePath, destFilePath.ToString().Split('.')[0]+"_"+i+".prefab");
-                        }
-                        catch (IOException w)
-                        {
-                            Console.WriteLine(w.Message);
-                        }
+                        //i++;
+                        //try
+                        //{
+                        //    File.Move(destFilePath, destFilePath.ToString().Split('.')[0]+"_"+i+".prefab");
+                        //}
+                        //catch (IOException w)
+                        //{
+                        //    Console.WriteLine(w.Message);
+                        //}
 
                     }
                 }
