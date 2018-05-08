@@ -26,14 +26,14 @@ namespace pc_dicrectory_tranversal_cSharp
 
             
             System.IO.DirectoryInfo root = new System.IO.DirectoryInfo(originalPath);
-            //WalkDirectoryTree(root, destinationDir);
+            WalkDirectoryTree(root, destinationDir);
             //TraverseTree(@"C:\Temp");
-            TranverseAllDictonaries(@"C:\Temp");
+            //TranverseAllDictonaries(@"C:\Temp");
         }
 
         //recusion
         static void WalkDirectoryTree(System.IO.DirectoryInfo specifiedDir,string destFolder) {
-
+            int i = 0;
             System.IO.FileInfo[] files = null;
             System.IO.DirectoryInfo[] subDirs = null;
 
@@ -50,10 +50,28 @@ namespace pc_dicrectory_tranversal_cSharp
             {
                 foreach (System.IO.FileInfo fi in files)
                 {
-                    Console.WriteLine(fi.FullName);
+                    //Console.WriteLine(fi.FullName);
                     string destFilePath;
                     destFilePath = System.IO.Path.Combine(destFolder, fi.Name);
-                    System.IO.File.Copy(fi.FullName, destFilePath,false);
+                    try
+                    {
+                        System.IO.File.Copy(fi.FullName, destFilePath, false);
+
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        i++;
+                        try
+                        {
+                            File.Move(destFilePath, destFilePath.ToString().Split('.')[0]+"_"+i+".prefab");
+                        }
+                        catch (IOException w)
+                        {
+                            Console.WriteLine(w.Message);
+                        }
+
+                    }
                 }
             }
 
